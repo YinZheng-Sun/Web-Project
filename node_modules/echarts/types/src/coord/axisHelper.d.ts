@@ -1,0 +1,23 @@
+import Scale from '../scale/Scale';
+import BoundingRect from 'zrender/lib/core/BoundingRect';
+import Model from '../model/Model';
+import { AxisBaseModel } from './AxisBaseModel';
+import Axis from './Axis';
+import { AxisBaseOption } from './axisCommonTypes';
+import List from '../data/List';
+import { DimensionName, ScaleTick } from '../util/types';
+export declare function getScaleExtent(scale: Scale, model: AxisBaseModel): {
+    extent: number[];
+    fixMin: boolean;
+    fixMax: boolean;
+};
+export declare function niceScaleExtent(scale: Scale, model: AxisBaseModel): void;
+export declare function createScaleByModel(model: AxisBaseModel, axisType?: string): Scale;
+export declare function ifAxisCrossZero(axis: Axis): boolean;
+export declare function makeLabelFormatter(axis: Axis): (tick: ScaleTick, idx?: number) => string;
+export declare function getAxisRawValue(axis: Axis, tick: ScaleTick): number | string;
+export declare function estimateLabelUnionRect(axis: Axis): BoundingRect;
+export declare function getOptionCategoryInterval(model: Model<AxisBaseOption['axisLabel']>): number | "auto" | ((index: number, value: string) => boolean);
+export declare function shouldShowAllLabels(axis: Axis): boolean;
+export declare function getDataDimensionsOnAxis(data: List, axisDim: string): DimensionName[];
+export declare function unionAxisExtentFromData(dataExtent: number[], data: List, axisDim: string): void;

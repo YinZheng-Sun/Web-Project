@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>新闻爬虫查询网站</title>
+    <meta charset="utf-8" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="stylesheets/login.css" />
+    <noscript>
+        <link rel="stylesheet" href="stylesheets/noscript.css" />
+    </noscript>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+
+<body class="is-preload">
+
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header" class="alt">
+            <h1><a>新闻爬虫查询网站</a></h1>
+            <nav>
+                <a href="#menu" style="color: black;">菜单</a>
+            </nav>
+        </header>
+        
+        <!-- Menu -->
+        <nav id="menu">
+            <div class="inner">
+                <h2>菜单</h2>
+                <ul class="links">
+                    <li><a href="index">主页</a></li>
+                    <!-- <li><a href="register">注册</a></li>
+                    <li><a href="login">登录</a></li>
+                    <li><a href="show">查询</a></li>
+                    <li><a href="chart">图表</a></li>
+                    <li><a href="administrate">管理</a></li> -->
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Banner -->
+        <section id="banner">
+            <!-- <div class="inner"> -->
+                <h1 style="color:black;text-align:center;margin-bottom:20px;">注册</h1>
+                    <div style=" border-color: blue" class="input_box" >
+                        <input id="uname" type="text" name="username" placeholder="请输入用户名" style="color: black;">
+                    </div>
+                    <div style=" border-color: blue;" class="input_box">
+                        <input id="upass" type="text" name="password" placeholder="请输入密码" style="color: black;">
+                    </div>
+                    <div id="error_box"><br></div>
+                    <div class="input_box">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="register_button" type="button" class="btn btn-primary btn-lg">确认</button>
+                    </div>
+        </section>
+
+
+        <!-- Footer -->
+        <section id="footer">
+            <div class="inner">
+                <ul class="copyright">
+                    <li>&copy; All rights reserved.</li>
+                    <li>Design: syz</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+    <script type="text/javascript">
+        $("#register_button").click(function() {
+           var oUname = document.getElementById("uname");
+           var oUpass = document.getElementById("upass");
+           var params = '/register';
+            $.post(params, {name: oUname.value,passwd: oUpass.value},function(text, status) {
+                //  console.log(text);
+                 JSON.parse(text, function(k,status) {
+                     if(status=="注册成功") {
+                         alert("注册成功");
+                         window.location.href = "login";
+ç                      } 
+                        if(status=="注册失败"){
+                           window.alert("注册失败");
+                       }
+                       if(status=="该用户已经注册过"){
+                            alert("该用户已经注册过");
+                            window.location.href = "login";
+                       }
+                   
+                 })
+             })
+           });
+           </script>
+    <!-- Scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.scrollex.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/breakpoints.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

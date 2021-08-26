@@ -1,0 +1,33 @@
+import { ArrayLike } from 'zrender/lib/core/types';
+declare type DiffKeyGetter<CTX = unknown> = (this: DataDiffer<CTX>, value: unknown, index: number) => string;
+declare type DiffCallbackAdd = (newIndex: number) => void;
+declare type DiffCallbackUpdate = (newIndex: number, oldIndex: number) => void;
+declare type DiffCallbackRemove = (oldIndex: number) => void;
+declare type DiffCallbackUpdateManyToOne = (newIndex: number, oldIndex: number[]) => void;
+declare type DiffCallbackUpdateOneToMany = (newIndex: number[], oldIndex: number) => void;
+export declare type DataDiffMode = 'oneToOne' | 'multiple';
+declare class DataDiffer<CTX = unknown> {
+    private _old;
+    private _new;
+    private _oldKeyGetter;
+    private _newKeyGetter;
+    private _add;
+    private _update;
+    private _updateManyToOne;
+    private _updateOneToMany;
+    private _remove;
+    private _diffModeMultiple;
+    readonly context: CTX;
+    constructor(oldArr: ArrayLike<unknown>, newArr: ArrayLike<unknown>, oldKeyGetter?: DiffKeyGetter<CTX>, newKeyGetter?: DiffKeyGetter<CTX>, context?: CTX, diffMode?: DataDiffMode);
+    add(func: DiffCallbackAdd): this;
+    update(func: DiffCallbackUpdate): this;
+    updateManyToOne(func: DiffCallbackUpdateManyToOne): this;
+    updateOneToMany(func: DiffCallbackUpdateOneToMany): this;
+    remove(func: DiffCallbackRemove): this;
+    execute(): void;
+    private _executeOneToOne;
+    private _executeMultiple;
+    private _performRestAdd;
+    private _initIndexMap;
+}
+export default DataDiffer;

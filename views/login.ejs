@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>新闻爬虫查询网站</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="stylesheets/login.css" />
+    <noscript>
+        <link rel="stylesheet" href="stylesheets/noscript.css" />
+    </noscript>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+
+<body class="is-preload">
+
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header" class="alt">
+            <h1><a>新闻爬虫查询网站</a></h1>
+            <nav>
+                <a style="color: black;" href="#menu">菜单</a>
+            </nav>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <div class="inner">
+                <h2>菜单</h2>
+                <ul class="links">
+                    <li><a href="index">主页</a></li>
+                    
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Banner -->
+        <section id="banner">
+            <!-- <div class="inner"> -->
+                <h1 style="color:black;text-align:center;margin-bottom:20px;">登录</h1>
+                    <div class="input_box">
+                        <input id="uname" type="text" name="username" placeholder="请输入用户名" style= "-web-kit-appearance:none;-moz-appearance: none;-webkit-input-placeholder: black;color: black;">
+                    </div>
+                    <div class="input_box">
+                        <input id="upass" type="text" name="password" placeholder="请输入密码" style= "color: black;-webkit-input-placeholder: black;">
+                    </div>
+                    <div id="error_box"><br></div>
+                    <div class="input_box">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="login_button" type="button" class="btn btn-primary btn-lg" style="right: 0%;">确认</button>
+                    </div>
+            <!-- </div> -->
+        </section>
+
+
+        <!-- Footer -->
+        <section id="footer">
+            <div class="inner">
+                <ul class="copyright">
+                    <li>&copy; All rights reserved.</li>
+                    <li>Design: 孙印政</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+    <script type="text/javascript">
+        $("#login_button").click(function () {
+            var oUname = document.getElementById("uname")
+            var oUpass = document.getElementById("upass")
+            var params = '/login';
+            $.post(params, { name: oUname.value, passwd: oUpass.value }, function (text, status) {
+                JSON.parse(text, function (k, v) {
+                    if (v == '登录成功') {
+                        if (oUname.value == 'syz') {
+                            alert(v);
+                            console.log("登录成功");
+                            window.location.href = "administrate";
+                        } else {
+                            alert(v);
+                            console.log("登录成功");
+                            window.location.href = "show";
+                        }
+                    }
+                    if (v == '密码错误') {
+                        alert(v);
+                        console.log("密码错误");
+                    }
+                    if (v == '该用户名没有被注册') {
+                        alert(v);
+                        console.log("该用户名没有被注册");
+                        window.location.href = "register";
+                    }
+                    if (v == '该用户没有权限') {
+                        alert(v);
+                        console.log("该用户没有权限");
+                    }
+                })
+            })
+        });
+           </script>
+    <!-- Scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.scrollex.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/breakpoints.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

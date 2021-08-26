@@ -1,0 +1,51 @@
+import * as matrix from 'zrender/lib/core/matrix';
+import BoundingRect from 'zrender/lib/core/BoundingRect';
+import Transformable from 'zrender/lib/core/Transformable';
+import { CoordinateSystemMaster, CoordinateSystem } from './CoordinateSystem';
+import GlobalModel from '../model/Global';
+import { ParsedModelFinder } from '../util/model';
+declare class View extends Transformable implements CoordinateSystemMaster, CoordinateSystem {
+    readonly type: string;
+    static dimensions: string[];
+    readonly dimensions: string[];
+    readonly name: string;
+    zoomLimit: {
+        max?: number;
+        min?: number;
+    };
+    private _roamTransformable;
+    protected _rawTransformable: Transformable;
+    private _center;
+    private _zoom;
+    protected _rect: BoundingRect;
+    private _viewRect;
+    private _rawTransform;
+    constructor(name?: string);
+    setBoundingRect(x: number, y: number, width: number, height: number): BoundingRect;
+    getBoundingRect(): BoundingRect;
+    setViewRect(x: number, y: number, width: number, height: number): void;
+    transformTo(x: number, y: number, width: number, height: number): void;
+    setCenter(centerCoord?: number[]): void;
+    setZoom(zoom: number): void;
+    getDefaultCenter(): number[];
+    getCenter(): number[];
+    getZoom(): number;
+    getRoamTransform(): matrix.MatrixArray;
+    private _updateCenterAndZoom;
+    protected _updateTransform(): void;
+    getTransformInfo(): {
+        roamTransform: number[];
+        rawScaleX: number;
+        rawScaleY: number;
+        rawX: number;
+        rawY: number;
+    };
+    getViewRect(): BoundingRect;
+    getViewRectAfterRoam(): BoundingRect;
+    dataToPoint(data: number[], noRoam?: boolean, out?: number[]): number[];
+    pointToData(point: number[]): number[];
+    convertToPixel(ecModel: GlobalModel, finder: ParsedModelFinder, value: number[]): number[];
+    convertFromPixel(ecModel: GlobalModel, finder: ParsedModelFinder, pixel: number[]): number[];
+    containPoint(point: number[]): boolean;
+}
+export default View;

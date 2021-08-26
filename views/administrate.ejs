@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>新闻爬虫查询网站</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Bootstrap Icons-->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" /> -->
+    <!-- Google fonts-->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" -->
+        <!-- rel="stylesheet" type="text/css" /> -->
+    <!-- SimpleLightbox plugin CSS-->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" /> -->
+    <!-- <link rel="stylesheet" href="https://formden.com/static/assets/demos/bootstrap-iso/bootstrap-iso/bootstrap-iso.css" /> -->
+        <link rel="stylesheet"
+        href="https://cdn.bootcdn.net/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.min.css">
+    </link>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
+</head>
+
+<body class="is-preload">
+
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header" class="alt">
+            <h1><a>新闻爬虫查询网站</a></h1>
+            <nav>
+                <a style="color: black;" href="#menu">菜单</a>
+            </nav>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <div  class="inner">
+                <h2 >菜单</h2>
+                <ul class="links">
+                    <li><a href="index">主页</a></li>
+
+                    <li><a href="show">查询</a></li>
+                    <li><a href="chart">图表</a></li>
+                    <li><a href="administrate">管理</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Banner -->
+        <section id="banner">
+            <div class="inner" style="width: 1000px;height:800px;position:relative;">
+                <div style="border-radius:15px;position:absolute;top:0;left:0;right:0;bottom:0;margin:0px;">
+                    <div style="height:100%;width: 100%;">
+                        <div style="height:50%;position:relative;">
+                            <div style="position:absolute;top:0;left:0;right:0;bottom:0;margin:2px;">
+                                <table id="user_table" style="height:25%;width:80%">
+                                </table>
+                            </div>
+                        </div>
+                        <div style="height:50%;position:relative;">
+                            <div style="position:absolute;top:0;left:0;right:0;bottom:0;margin:2px;">
+                                <table id="log_table" style="height:25%;width:80%">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wrapper -->
+
+        <!-- Footer -->
+        <section id="footer">
+            <div class="inner">
+                <ul class="copyright">
+                    <li>&copy; All rights reserved.</li>
+                    <li>Design: syz</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+    <script>
+        var params = '/get_user_info';
+        $('#user_table').bootstrapTable({
+            url: params,
+            method: 'GET',
+            pagination: true,
+            sidePagination: 'client',
+            pageSize: 5,
+            striped: true,
+            sortable: true,
+            sortOrder: "asc",
+            // showRefresh: true,
+            search: true,
+            // showToggle: true,
+            toolbar: '#toolbar',
+            // showColumns: true,
+            columns: [{
+                field: 'username',
+                title: '用户名',
+                sortable: true
+            }, {
+                field: 'authority',
+                title: '权限管理',
+                formatter: function (value, row, index) {
+                    var result = "";
+                    if (value) {
+                        result += '<input name="status" value =  ' + index + ' type="checkbox">';
+                    } else {
+                        result += '<input name="status" value =  ' + index + ' type="checkbox" checked>';
+                    }
+                    return result;
+                }
+
+            }, {
+                field: 'log',
+                title: '查询日志',
+                formatter: function (value, row, index) {
+                    var result = "";
+                    result += '<button type="button" class="btn btn-primary btn-sm" name = "buttons" value = ' + index + ' >查询用户日志</button>';
+                    return result;
+                }
+
+            }],
+            theadClasses: "thead-light",
+
+            onLoadSuccess: function () {
+                initSwitch();
+                initButton();
+            },
+
+            onPageChange: function (number, size) {
+                initSwitch();
+                initButton();
+            }
+        });
+
+        function initSwitch() {
+            $('[name="status"]').bootstrapSwitch({
+                onText: "启用",      // 设置ON文本  
+                offText: "禁用",    // 设置OFF文本  
+                onColor: "success",// 设置ON文本颜色(info/success/warning/danger/primary)  
+                offColor: "danger",  // 设置OFF文本颜色 (info/success/warning/danger/primary)  
+                onSwitchChange: function (event, state) {
+                    var id = this.value;
+                    var username = $("#user_table").bootstrapTable("getData")[id].username;
+                    if (state == true) {
+                        console.log("true");
+                        $.get("administrate_off?username=" + username, function () {
+                        });
+                    } else {
+                        console.log("false");
+                        $.get("administrate_open?username=" + username, function () {
+
+                        });
+                    }
+                }
+            })
+        }
+        function initButton() {
+            $('[name="buttons"]').click(function () {
+                $('#log_table').bootstrapTable('destroy');
+                var username = $('#user_table').bootstrapTable("getData")[this.value].username;
+                console.log(username);
+                var params = '/get_user_logs?username=' + username;
+                $('#log_table').bootstrapTable({
+                    url: params,
+                    method: 'GET',
+                    pagination: true,
+                    sidePagination: 'client',
+                    pageSize: 5,
+                    striped: true,
+                    sortable: true,
+                    sortOrder: "asc",
+                    // showRefresh: true,
+                    search: true,
+                    // showToggle: true,
+                    toolbar: '#toolbar',
+                    // showColumns: true,
+                    columns: [{
+                        field: 'username',
+                        title: '用户名',
+                        sortable: true
+                    }, {
+                        field: 'action',
+                        title: '用户操作',
+                    }, {
+                        field: 'operation_time',
+                        title: '操作时间',
+                    }],
+                    theadClasses: "thead-light"
+                });
+            });
+        }
+    </script>
+    <!-- Scripts -->
+    <!-- <script src="js/jquery.min.js"></script> -->
+    <script src="js/jquery.scrollex.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/breakpoints.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
