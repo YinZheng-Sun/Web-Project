@@ -38,26 +38,57 @@
 				labels: {
 					"knowledge": {
 						"caption": "name",
-						"size": 1,
-						"community": "community"
+						"size":"points",
+						"community": "community",
+						"font": {
+							"size":26,
+							"color":"#000000"
+						}
 					}
-					// "Character": {
-					// 	"caption": "name",
-					// 	"size": 1,
-					// 	"community": "community"
-					// }
+
 				},
 				relationships: {
 					"包含": {
 						"thickness": "0.003",
 						"caption": true
+					},
+					"被依赖": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"依赖": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"拥有": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"属于": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"属性": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"无关": {
+						"thickness": "0.001",
+						"caption": false
+					},
+					"同义": {
+						"thickness": "0.001",
+						"caption": true
+					},
+					"反义": {
+						"thickness": "0.001",
+						"caption": true
 					}
 				},
-				// initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN n,r,m"
-				initial_cypher: "MATCH (n) RETURN n LIMIT 25",
+				initial_cypher: 'MATCH (n)-[r]->(m) RETURN * LIMIT 40',
+				// initial_cypher: "MATCH (n) RETURN n LIMIT 25",
 				arrows: true
 			};
-
 			viz = new NeoVis.default(config);
 			viz.render();
 			console.log(viz);
@@ -67,26 +98,27 @@
 <body onload="draw()">
 <div id="viz"></div>
 
-
-Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
+<textarea rows="4" cols=50 id="cypher"></textarea><br>
 <input type="submit" value="Submit" id="reload">
 <input type="submit" value="Stabilize" id="stabilize">
-
-
 </body>
 
 <script>
 	$("#reload").click(function() {
-
 		var cypher = $("#cypher").val();
-        console.log(cypher);
-		if (cypher.length > 3) {
-			viz.renderWithCypher(cypher);
-		} else {
-			console.log("reload");
-			viz.reload();
-		}
 
+		var params = '/knowledge?knowledge=' + cypher;
+		$.get(params, function (data) {
+                var json = JSON.parse(data);
+				var cypher_;
+				console.log(json[0].label)
+				if(json != "no") {
+					cypher_ = 'Match (n)-[r]->(m) --> (b) where n.name ="'+json[0].label+'" or m.name ="'+json[0].label+'" return n,r,m';
+					viz.renderWithCypher(cypher_);
+				} else {
+					viz.reload();
+				}
+            });
 	});
 
 	$("#stabilize").click(function() {

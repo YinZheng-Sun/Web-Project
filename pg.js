@@ -20,7 +20,7 @@ var query = function(sql, sqlparam, callback) {
         } else {
             conn.query(sql, sqlparam, function(err, result) {
                 done();
-                callback(err, result);  
+                callback(err, result); 
             });
         }
     });

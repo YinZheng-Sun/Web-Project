@@ -30,3 +30,8 @@ CREATE TABLE ActionLogs(
    action varchar(255) not null,
    Operation_time TIMESTAMP  DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE LabelDiscription(
+   label varchar(255) PRIMARY KEY ,
+   content text
+);
