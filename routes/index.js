@@ -24,7 +24,7 @@ router.get('/index', function (req, res, next) {
     res.render('index');
 });
 router.get('/show',function (req,res,next) {
-    res.render('show');
+    res.render('show3');
 });
 
 router.get('/show2',function (req,res,next) {
