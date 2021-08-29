@@ -10,7 +10,7 @@ const driver = neo4j.driver(db, neo4j.auth.basic(dbuser, dbpassword),{
 function query_(label, callback) {
     var session = driver.session()
     var res = []
-    session.run('Match (m:knowledge{name:$nameParam})-[r:`拥有`]->(n:knowledge) RETURN n.name as name', {
+    session.run('Match (m:knowledge{name:$nameParam})-[r]->(n:knowledge) RETURN n.name as name', {
       nameParam: label
     }).subscribe({
         onKeys: keys => {
@@ -28,7 +28,6 @@ function query_(label, callback) {
           console.log(error)
         }
       })
-      driver.close()
 };
 
 exports.query_ = query_;
