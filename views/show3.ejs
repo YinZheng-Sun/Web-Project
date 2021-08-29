@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+    <title>Neovis.js Simple Example</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/googlestyle.css" media="all">
+    <link rel="shortcut icon" href="images/googlelogo2.png" type="image/x-icon">
+
+    <style type="text/css">
+        html, body {
+            font: 16pt arial;
+        }
+        #viz {
+            width: 700px;
+            height: 500px;
+            border: 1px solid lightgray;
+            font: 22pt arial;
+        }
+    </style>
+
+    <!-- FIXME: load from dist -->
+    <script type="text/javascript" src="js/neovis.js"></script>
+
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        var viz;
+        function draw() {
+            console.log("here");
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://localhost:7687",
+                server_user: "neo4j",
+                server_password: "syz0615",
+                labels: {
+                    "knowledge": {
+                        "caption": "name",
+                        "size": 1,
+                        "community": "community"
+                    }
+                    // "Character": {
+                    // 	"caption": "name",
+                    // 	"size": 1,
+                    // 	"community": "community"
+                    // }
+                },
+                relationships: {
+                    "包含": {
+                        "thickness": "0.003",
+                        "caption": true
+                    }
+                },
+                // initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN n,r,m"
+                initial_cypher: "MATCH (n) RETURN n LIMIT 25",
+                arrows: true
+            };
+            viz = new NeoVis.default(config);
+            viz.render();
+            console.log(viz);
+        }
+    </script>
+</head>
+<body onload="draw()">
+
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <div id="header-wrapper">
+        <div id="header" class="container">
+
+            <!-- Logo -->
+            <h1 id="logo"><a href="index.html">Telephasic</a></h1>
+
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="#">Dropdown</a>
+                        <ul>
+                            <li><a href="#">Lorem ipsum dolor</a></li>
+                            <li><a href="#">Magna phasellus</a></li>
+                            <li><a href="#">Etiam dolore nisl</a></li>
+                            <li>
+                                <a href="#">Phasellus consequat</a>
+                                <ul>
+                                    <li><a href="#">Lorem ipsum dolor</a></li>
+                                    <li><a href="#">Phasellus consequat</a></li>
+                                    <li><a href="#">Magna phasellus</a></li>
+                                    <li><a href="#">Etiam dolore nisl</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Veroeros feugiat</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="left-sidebar.html">Left Sidebar</a></li>
+                    <li class="break"><a href="right-sidebar.html">Right Sidebar</a></li>
+                    <li><a href="no-sidebar.html">No Sidebar</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+
+
+    <!-- Main -->
+    <div class="wrapper">
+        <div class="container" id="main">
+            <div class="row gtr-150">
+                <div class="col-8 col-12-narrower">
+                    <div class="searchbar">
+                        <!--    <img src=images/search.png class="mg">-->
+                        <input type="text" id="cypher" value="Cypher Query"
+                               onfocus="if(value=='Cypher Query')value=''" onblur="if(!value)value='Cypher Query'" name="keyword" >
+                        <input type="image" src=images/search.png class="mgend" id="reload">
+                        <input type="image" src=images/stabilze2.png class="mcp" id="stabilize">
+                    </div>
+                </div>
+                <div class="col-8 col-12-narrower">
+                    <!-- Content -->
+                    <article id="content">
+                        <header>
+                            <h2>图谱显示</h2>
+                            <div id="viz"></div>
+                        </header>
+
+                    </article>
+
+                </div>
+                <div class="col-4 col-12-narrower">
+
+                    <!-- Sidebar -->
+                    <section id="sidebar">
+                        <section id="showlabel">
+                            <header>
+                                <h3>显示内容</h3>
+                            </header>
+                            <p>内容正文</p>
+                        </section>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<!--Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>-->
+<!--<input type="submit" value="Submit" id="reload">-->
+<!--<input type="submit" value="Stabilize" id="stabilize">-->
+
+</body>
+
+<script>
+    $("#reload").click(function() {
+        var cypher = $("#cypher").val();
+        console.log(cypher);
+        if (cypher.length > 3) {
+            viz.renderWithCypher(cypher);
+        } else {
+            console.log("reload");
+            viz.reload();
+        }
+    });
+    $("#stabilize").click(function() {
+        viz.stabilize();
+    })
+</script>
+</html>
