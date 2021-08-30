@@ -352,7 +352,11 @@ router.get('/get_date_num', function (req, res) {
 
 router.get('/knowledge',async function (req,res) {
     var json = []
-    var result_ = []
+    var result_ = ['B树','渐进']
+    var a = "("
+    for(const item of result_) {
+        item 
+    }
     var knowledge = req.query.knowledge;
     res.writeHead(200, { 'Content-Type': 'text/html;charset=utf-8' });
     var array = ['B树', '渐进', '克鲁', '插值', '主串', 'AO', '二元',
@@ -394,25 +398,59 @@ router.get('/knowledge',async function (req,res) {
     }
     var label = knowledge[2] + knowledge[3];
     var index;
+    
     if ((index = array.indexOf(label)) !== -1) {
-        var fetchSql = "SELECT label,content FROM labeldiscription where label = $1;";
-        var fetch_Params = [label_[index]];
+        var fetchSql = "SELECT label,content FROM labeldiscription where label in ($1";
         
-        pgsql.query(fetchSql, fetch_Params, function (err, result, fields) {
-            if (err) {
-                console.log(err);
-                return;
+        var fetch_Params = [label_[index]];
+        // pgsql.query(fetchSql, fetch_Params, function (err, result, fields) {
+        //     if (err) {
+        //         console.log(err);
+        //         return;
+        //     }
+        //     // json.push(result.rows[0]);
+        //     console.log(result.rows[1])
+        //     // neo4j.query_(label_[index],function(err,result){
+        //     //     if(err) {
+        //     //         console.log(err)
+        //     //     }
+        //     // })
+        //     res.end(JSON.stringify(result.rows));
+        // }
+        neo4j.query_(label_[index],function(err,result){
+            if(err) {
+                console.log(err)
+            }else {
+                console.log(result)
+                for(i=1;i <= result.length; i++) {
+                    fetchSql+=','+'$'+(i+1);
+                }
+                fetchSql+=');'
+                console.log(fetchSql)
+                fetch_Params = fetch_Params.concat(result)
+                console.log(fetch_Params)
+                pgsql.query(fetchSql, fetch_Params,function(err, result, fields) {
+                    if(err) {
+                        console.log(err)
+                    }else {
+                        let  arr = result.rows
+                        let obj = {};
+                        arr.forEach((item,index_)=>{
+                            if(item.label === label_[index]){
+                                obj = item;
+                                arr.splice(index_,1)
+                                return;
+                            }
+                        
+                        })
+                        arr.unshift(obj);
+                        console.log(arr)
+                        res.end(JSON.stringify(arr));
+                    }
+                })
             }
-            json.push(result.rows[0]);
-            console.log(json)
-            // neo4j.query_(label_[index],function(err,result){
-            //     if(err) {
-            //         console.log(err)
-            //     }
-            // })
-            res.end(JSON.stringify(json));
-        }
-        );
+        })
+        
     } else {
         console.log("数组不存在该label");
         res.end(JSON.stringify("no"));

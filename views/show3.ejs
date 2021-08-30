@@ -1,9 +1,10 @@
 <!doctype html>
 <html>
 <head>
-    <title>Neovis.js Simple Example</title>
+    <title>Neo4j</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/googlestyle.css" media="all">
     <link rel="shortcut icon" href="images/googlelogo2.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
     <style type="text/css">
         html, body {
@@ -21,52 +22,85 @@
     <script type="text/javascript" src="js/neovis.js"></script>
 
 
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
     <script type="text/javascript">
         var viz;
         function draw() {
             console.log("here");
-            var config = {
-                container_id: "viz",
-                server_url: "bolt://localhost:7687",
-                server_user: "neo4j",
-                server_password: "syz0615",
-                labels: {
-                    "knowledge": {
-                        "caption": "name",
-                        "size": 1,
-                        "community": "community"
-                    }
-                    // "Character": {
-                    // 	"caption": "name",
-                    // 	"size": 1,
-                    // 	"community": "community"
-                    // }
-                },
-                relationships: {
-                    "包含": {
-                        "thickness": "0.003",
-                        "caption": true
-                    }
-                },
-                // initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN n,r,m"
-                initial_cypher: "MATCH (n) RETURN n LIMIT 25",
-                arrows: true
-            };
-            viz = new NeoVis.default(config);
-            viz.render();
-            console.log(viz);
-        }
+			var config = {
+				container_id: "viz",
+				server_url: "bolt://localhost:7687",
+				server_user: "neo4j",
+				server_password: "syz0615",
+				labels: {
+					"knowledge": {
+						"caption": "name",
+						"size":"points",
+						"community": "community",
+						"font": {
+							"size":26,
+							"color":"#000000"
+						}
+					}
+
+				},
+				relationships: {
+					"包含": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"被依赖": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"依赖": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"拥有": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"属于": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"属性": {
+						"thickness": "0.003",
+						"caption": true
+					},
+					"无关": {
+						"thickness": "0.001",
+						"caption": false
+					},
+					"同义": {
+						"thickness": "0.001",
+						"caption": true
+					},
+					"反义": {
+						"thickness": "0.001",
+						"caption": true
+					}
+				},
+				initial_cypher: 'MATCH (n)-[r]->(m) RETURN * LIMIT 40',
+				// initial_cypher: "MATCH (n) RETURN n LIMIT 25",
+				arrows: true
+			};
+			viz = new NeoVis.default(config);
+			viz.render();
+			console.log(viz);
+		}
     </script>
 </head>
 <body onload="draw()">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
+    <!-- <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js" ></script> -->
 <div id="page-wrapper">
-
     <!-- Header -->
     <div id="header-wrapper">
         <div id="header" class="container">
@@ -131,7 +165,9 @@
 
                 </div>
                 <div class="col-4 col-12-narrower">
-
+                    
+                                   
+                    
                     <!-- Sidebar -->
                     <section id="sidebar">
                         <section id="showlabel">
@@ -139,6 +175,7 @@
                                 <h3>显示内容</h3>
                             </header>
                             <p>内容正文</p>
+                            
                         </section>
                     </section>
 
@@ -157,22 +194,62 @@
 <!--Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>-->
 <!--<input type="submit" value="Submit" id="reload">-->
 <!--<input type="submit" value="Stabilize" id="stabilize">-->
-
-</body>
-
 <script>
     $("#reload").click(function() {
-        var cypher = $("#cypher").val();
-        console.log(cypher);
-        if (cypher.length > 3) {
-            viz.renderWithCypher(cypher);
-        } else {
-            console.log("reload");
-            viz.reload();
-        }
-    });
-    $("#stabilize").click(function() {
-        viz.stabilize();
-    })
-</script>
+         var cypher = $("#cypher").val();
+        //  $("p").html("Hello <b>world!</b>");
+         var params = '/knowledge?knowledge=' + cypher;
+        //  $.get(params, function (data) {
+        //          var json = JSON.parse(data);
+        //          var cypher_;
+        //          console.log(json[0].label)
+        //          if(json != "no") {
+        //              cypher_ = 'Match (n)-[r]->(m) --> (b) where n.name ="'+json[0].label+'" or m.name ="'+json[0].label+'" return n,r,m';
+        //              viz.renderWithCypher(cypher_);
+        //              console.log(params)
+        //              str = '"<td>1</td>"'
+        //              console.log(str)
+        //              $("#tableText").html(str);
+        //          } else {
+        //              viz.reload();
+        //          }
+        //      });
+        $.ajax({
+                type: "GET",//用POST传递数据，GET也可以
+                url: params,//我用的是MVC，这样可以直接触发对应的Controle
+                
+                dataType: "json",//定义的是返回数据的格式，直接写json就对了，写text的话还要用JSON.pare()再转换一次
+                success: function (data) {
+                    if (data == null || data == 'no') {
+                        viz.reload();
+                        
+                    } else {
+                        cypher_ = 'Match (n)-[r]->(m) --> (b) where n.name ="'+data[0].label+'" or m.name ="'+data[0].label+'" return n,r,m';
+                        viz.renderWithCypher(cypher_);
+    
+                        
+                        var str = '<table id="table1" style="color: black;width: 800px;" border="1"><tr><th>Label</th><th>Content</th></tr>'//把数据组装起来
+                        for (var i = 0; i < data.length; i++) {
+                            str += "<tr><td>"+ data[i].label + "</td>"
+                            str+= "<td>"+ data[i].content + "</td></tr>"
+                        }
+                        console.log(data.length)
+                        str += "</table>"
+                        
+                        $("p").html(str);//把拼好的样式填到指定的位置，一个Ajax的表格刷新功能就完成了
+                    }
+                }
+            });
+     });
+ 
+     $("#stabilize").click(function() {
+         viz.stabilize();
+     })
+ </script>
+ <!-- <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script> -->
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+  integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+  crossorigin="anonymous"></script>
+</body>
 </html>
