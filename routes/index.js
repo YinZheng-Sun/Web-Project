@@ -400,7 +400,7 @@ router.get('/knowledge',async function (req,res) {
     var index;
     
     if ((index = array.indexOf(label)) !== -1) {
-        var fetchSql = "SELECT label,content FROM labeldiscription where label in ($1";
+        var fetchSql = "SELECT label,content,book_index,page_num FROM labeldiscription where label in ($1";
         
         var fetch_Params = [label_[index]];
         // pgsql.query(fetchSql, fetch_Params, function (err, result, fields) {
@@ -421,7 +421,7 @@ router.get('/knowledge',async function (req,res) {
             if(err) {
                 console.log(err)
             }else {
-                console.log(result)
+                console.log("result"+result)
                 for(i=1;i <= result.length; i++) {
                     fetchSql+=','+'$'+(i+1);
                 }

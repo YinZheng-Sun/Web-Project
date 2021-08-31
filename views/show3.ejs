@@ -17,6 +17,7 @@
             border: 1px solid lightgray;
             font: 22pt arial;
         }
+        
     </style>
 
     <!-- FIXME: load from dist -->
@@ -179,21 +180,9 @@
                     <section id="sidebar">
                         <section id="showlabel">
                             <header>
-                                <h3>显示内容</h3>
+                                <h3></h3>
                             </header>
-                            <p>内容正文</p>
-
-                            <script>
-                                var str = '<table id="newspaper-a"><tr><th>Label</th><th>Content</th></tr>'//把数据组装起来
-                                for (var i = 0; i < 5; i++) {
-                                    str += "<tr><td>尝试尝试尝试</td>"
-                                    str+= "<td>内容内容内容</td></tr>"
-                                }
-                                str += "</table>"
-
-                                $("p").html(str);
-                            </script>
-                            
+                            <p></p>
                         </section>
                     </section>
 
@@ -213,57 +202,45 @@
 <script>
     $("#reload").click(function() {
          var cypher = $("#cypher").val();
-        //  $("p").html("Hello <b>world!</b>");
          var params = '/knowledge?knowledge=' + cypher;
-        //  $.get(params, function (data) {
-        //          var json = JSON.parse(data);
-        //          var cypher_;
-        //          console.log(json[0].label)
-        //          if(json != "no") {
-        //              cypher_ = 'Match (n)-[r]->(m) --> (b) where n.name ="'+json[0].label+'" or m.name ="'+json[0].label+'" return n,r,m';
-        //              viz.renderWithCypher(cypher_);
-        //              console.log(params)
-        //              str = '"<td>1</td>"'
-        //              console.log(str)
-        //              $("#tableText").html(str);
-        //          } else {
-        //              viz.reload();
-        //          }
-        //      });
         $.ajax({
-                type: "GET",//用POST传递数据，GET也可以
-                url: params,//我用的是MVC，这样可以直接触发对应的Controle
-                
-                dataType: "json",//定义的是返回数据的格式，直接写json就对了，写text的话还要用JSON.pare()再转换一次
+                type: "GET",
+                url: params,
+                dataType: "json",//定义的是返回数据的格式，直接写json就对了
                 success: function (data) {
                     if (data == null || data == 'no') {
                         viz.reload();
-                        
                     } else {
                         cypher_ = 'Match (n)-[r]->(m) --> (b) where n.name ="'+data[0].label+'" or m.name ="'+data[0].label+'" return n,r,m';
                         viz.renderWithCypher(cypher_);
-    
-                        
-                        var str = '<table id="newspaper-a" style="color: black;width: 800px;" border="1"><tr><th>Label</th><th>Content</th></tr>'//把数据组装起来
+                        var str = '<table id="newspaper-a" style="color: black;width: 800px;" border="1"><tr><th>Label</th><th>Content</th><th>Book_index</th><th>Page_num</th></tr>'//把数据组装起来
                         for (var i = 0; i < data.length; i++) {
                             str += "<tr><td>"+ data[i].label + "</td>"
-                            str+= "<td>"+ data[i].content + "</td></tr>"
+                            str+= "<td>"+ data[i].content + "</td>"
+                            if(data[i].book_index==undefined) {
+                                str+= "<td> null </td>"
+                            }else{
+                                str+= "<td>"+ data[i].book_index + "</td>"
+                            }
+                            if(data[i].page_num==undefined) {
+                                str+= "<td> null </td>"
+                            }else{
+                                str+= "<td>"+ data[i].page_num + "</td>"
+                            }
                         }
                         console.log(data.length)
                         str += "</table>"
-                        
                         $("p").html(str);//把拼好的样式填到指定的位置，一个Ajax的表格刷新功能就完成了
+                        $("h3").html("知识点梳理");
                     }
                 }
             });
      });
- 
      $("#stabilize").click(function() {
          viz.stabilize();
      })
  </script>
  <!-- <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script> -->
-
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
   integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
   crossorigin="anonymous"></script>
