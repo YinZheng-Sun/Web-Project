@@ -43,19 +43,20 @@ img.othernav {
 
 
 #cypher {
-    width: 450px;
-    height: 40px;
+    width: 500px;
+    height: 90px;
     border:none;    /*取消默认的边框以设置自定义边框*/
     outline:none;   /*取消浏览器默认的蓝光边框以设置自定义的输入框*/
     font-size: 16px;        
     color: rgb(112, 112, 112);
-    margin-left: 15px;
+    margin-top: 5px;
+    margin-left: 25px;
 }
 .searchbar {        /*目的是设置自定义边框，比如圆角与阴影*/
     border: rgb(218, 218, 218) solid 1px;
     border-radius: 2em;
-    width: 552px;
-    height: 42px;
+    width: 600px;
+    height: 100px;
     box-shadow: 0px 0px 5px rgb(212, 212, 212);
     /*margin: 0 auto;*/
 }
@@ -2174,10 +2175,10 @@ button:hover,
     position: relative;
     padding: 2em 0 2em 0;
     /*background-image: url("/public/images/header.svg");*/
-    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), -moz-linear-gradient(75deg, #FF7088 15%, #F2B69D 55%);
-    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), -webkit-linear-gradient(75deg, #FF7088 15%, #F2B69D 55%);
-    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), -ms-linear-gradient(75deg, #FF7088 15%, #F2B69D 55%);
-    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), linear-gradient(75deg, #FF7088 15%, #F2B69D 55%);
+    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), -moz-linear-gradient(75deg, #7030a0 15%, #893bc4 55%);
+    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), -webkit-linear-gradient(75deg, #7030a0 15%, #893bc4 55%);
+    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), -ms-linear-gradient(75deg, #7030a0 15%, #893bc4 55%);
+    background-image: url("/public/images/overlay.png"), url("/public/images/header.svg"), linear-gradient(75deg, #7030a0 15%, #893bc4 55%);
     background-color: #f08c89;
     background-size: 100% 620%;
     background-size: 128px 128px, 100% 620%, auto;
@@ -2233,9 +2234,9 @@ button:hover,
     color: #fff;
     display: inline-block;
     font-weight: 600;
-    letter-spacing: 3px;
+    /*letter-spacing: 3px;*/
     text-align: center;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
 #nav {
