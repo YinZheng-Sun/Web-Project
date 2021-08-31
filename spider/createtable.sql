@@ -33,5 +33,7 @@ CREATE TABLE ActionLogs(
 
 CREATE TABLE LabelDiscription(
    label varchar(255) PRIMARY KEY ,
-   content text
+   content text,
+   book_index varchar(255),
+   page_num varchar(255)
 );
