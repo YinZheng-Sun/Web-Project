@@ -2236,6 +2236,7 @@ button:hover,
     font-weight: 600;
     /*letter-spacing: 3px;*/
     text-align: center;
+    padding-top: 8px;
     /*text-transform: uppercase;*/
 }
 
