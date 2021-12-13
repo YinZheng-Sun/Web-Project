@@ -3,8 +3,8 @@ var pg = require('pg');
 var config = {  
     host:"127.0.0.1",
     user:"root",
-    database:"spider",
-    password:"syz0615",
+    database:"******",
+    password:"******",
     port:5432,
     max:20, // 连接池最大连接数
     idleTimeoutMillis:3000, // 连接最大空闲时间 3s
